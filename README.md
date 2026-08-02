@@ -101,21 +101,37 @@ provider never sends a field it does not have.
 ## Requirements
 
 - **Node.js ≥ 20** (uses the built-in global `fetch`; no HTTP dependency).
-- **`@gladysassistant/integration-sdk` ≥ 0.10.0** — the version that ships the
-  weather API (`onWeatherGet`, `WEATHER_CONDITIONS`,
-  `WEATHER_ALERT_SEVERITIES`, `WEATHER_ALERT_TYPES`).
+- **`@gladysassistant/integration-sdk` with the weather API** — `onWeatherGet`,
+  `WEATHER_CONDITIONS`, `WEATHER_ALERT_SEVERITIES`, `WEATHER_ALERT_TYPES`.
 - A **Gladys** with weather-integration support (spec B.18); the manifest
   declares the range in `gladys_version`.
 
-> **Note — unreleased dependencies.** At the time of writing, both the SDK
-> weather API ([integration-sdk-js#19](https://github.com/GladysAssistant/integration-sdk-js/pull/19))
+> **⚠️ Temporary: the SDK is pinned to an unreleased commit.**
+> The SDK weather API ([integration-sdk-js#19](https://github.com/GladysAssistant/integration-sdk-js/pull/19))
 > and the Gladys core support ([Gladys#2738](https://github.com/GladysAssistant/Gladys/pull/2738))
-> are open pull requests. `npm install` therefore cannot resolve
-> `@gladysassistant/integration-sdk@^0.10.0` yet, and this repository ships no
-> `package-lock.json` for that reason. Once the SDK is published: run
-> `npm install`, commit the lockfile, adjust `gladys_version` to the Gladys
-> release that carries B.18, and put `cache: npm` + `npm ci` back in
-> `.github/workflows/ci.yml`.
+> are both still open pull requests, so no published npm version carries
+> `onWeatherGet` yet. To keep this repository installable and its CI green,
+> `package.json` points at the source archive of the **exact commit** of the SDK
+> pull request:
+>
+> ```
+> https://github.com/GladysAssistant/integration-sdk-js/archive/af9d20b0e92415c242265c5ee0647f5c618332ec.tar.gz
+> ```
+>
+> An https tarball rather than a `git+…` dependency on purpose: npm rewrites
+> GitHub git dependencies to `git+ssh://` in the lockfile, which then fails on
+> any CI runner without an SSH key. The tarball resolves over plain https, is
+> pinned to an immutable commit, carries an integrity hash and needs no `git`
+> in the Docker image.
+>
+> **When the SDK ships the weather API, do these three things:**
+>
+> 1. set the dependency back to a plain version (`"^0.10.0"`) and run
+>    `npm install` to refresh `package-lock.json`;
+> 2. set `gladys_version` in the manifest to the Gladys release that carries
+>    B.18 (it currently guesses `>=4.85.0`);
+> 3. re-run `npx github:GladysAssistant/integration-store .` — the store schema
+>    only accepts `type: "weather"` once Gladys#2738 has landed.
 
 ## Run it locally
 

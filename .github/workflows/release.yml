@@ -85,10 +85,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # package-lock.json is only added when the repository has one (see
-          # the note in .github/workflows/ci.yml).
-          git add package.json gladys-assistant-integration.json
-          [ -f package-lock.json ] && git add package-lock.json || true
+          git add package.json package-lock.json gladys-assistant-integration.json
           git commit -m "chore(release): ${VERSION}"
           git tag -a "v${VERSION}" -m "Release ${VERSION}"
 

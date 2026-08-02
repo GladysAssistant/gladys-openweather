@@ -16,7 +16,7 @@
     "node": ">=20"
   },
   "dependencies": {
-    "@gladysassistant/integration-sdk": "^0.10.0"
+    "@gladysassistant/integration-sdk": "https://github.com/GladysAssistant/integration-sdk-js/archive/af9d20b0e92415c242265c5ee0647f5c618332ec.tar.gz"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
