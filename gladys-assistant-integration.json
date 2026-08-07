@@ -6,16 +6,21 @@
     "en": "Weather conditions, forecasts and alerts from OpenWeather.",
     "fr": "Conditions, prévisions et alertes météo fournies par OpenWeather."
   },
-  "version": "1.0.0",
-  "docker_image": "ghcr.io/gladysassistant/gladys-openweather:1.0.0",
+  "version": "1.0.1",
+  "docker_image": "ghcr.io/gladysassistant/gladys-openweather:1.0.1",
   "gladys_version": ">=4.85.0",
   "cover_image": "https://raw.githubusercontent.com/GladysAssistant/gladys-openweather/main/cover.png",
-  "transports": ["cloud"],
+  "transports": [
+    "cloud"
+  ],
   "config_schema": [
     {
       "key": "intro",
       "type": "section",
-      "label": { "en": "Your OpenWeather account", "fr": "Votre compte OpenWeather" },
+      "label": {
+        "en": "Your OpenWeather account",
+        "fr": "Votre compte OpenWeather"
+      },
       "description": {
         "en": "OpenWeather is a free weather API. Create an account, copy the API key from the \"API keys\" tab and paste it below. A new key takes up to a couple of hours to become active.",
         "fr": "OpenWeather est une API météo gratuite. Créez un compte, copiez la clé d'API depuis l'onglet « API keys » et collez-la ci-dessous. Une nouvelle clé peut mettre jusqu'à quelques heures avant d'être active."
@@ -23,18 +28,27 @@
       "links": [
         {
           "url": "https://home.openweathermap.org/users/sign_up",
-          "label": { "en": "Create a free account", "fr": "Créer un compte gratuit" }
+          "label": {
+            "en": "Create a free account",
+            "fr": "Créer un compte gratuit"
+          }
         },
         {
           "url": "https://home.openweathermap.org/api_keys",
-          "label": { "en": "Get my API key", "fr": "Obtenir ma clé d'API" }
+          "label": {
+            "en": "Get my API key",
+            "fr": "Obtenir ma clé d'API"
+          }
         }
       ]
     },
     {
       "key": "api_key",
       "type": "secret",
-      "label": { "en": "API key", "fr": "Clé d'API" },
+      "label": {
+        "en": "API key",
+        "fr": "Clé d'API"
+      },
       "description": {
         "en": "The OpenWeather API key used for every request.",
         "fr": "La clé d'API OpenWeather utilisée pour chaque requête."
@@ -48,7 +62,10 @@
     {
       "key": "api_version",
       "type": "select",
-      "label": { "en": "OpenWeather API", "fr": "API OpenWeather" },
+      "label": {
+        "en": "OpenWeather API",
+        "fr": "API OpenWeather"
+      },
       "description": {
         "en": "\"Free\" works with any account. \"One Call 3.0\" needs the One Call subscription (1000 free calls a day, a credit card is required) and adds hourly detail, UV index, dew point and weather alerts.",
         "fr": "« Gratuite » fonctionne avec n'importe quel compte. « One Call 3.0 » nécessite l'abonnement One Call (1000 appels gratuits par jour, carte bancaire requise) et ajoute le détail heure par heure, l'indice UV, le point de rosée et les alertes météo."
@@ -76,7 +93,10 @@
     {
       "key": "cache_duration",
       "type": "number",
-      "label": { "en": "Cache duration (s)", "fr": "Durée du cache (s)" },
+      "label": {
+        "en": "Cache duration (s)",
+        "fr": "Durée du cache (s)"
+      },
       "description": {
         "en": "How long a weather answer is reused before calling OpenWeather again. Keeps the dashboard within the free quota. Set to 0 to always call the API.",
         "fr": "Durée pendant laquelle une réponse est réutilisée avant de rappeler OpenWeather. Permet de rester dans le quota gratuit. Mettre 0 pour toujours appeler l'API."
@@ -90,13 +110,19 @@
   "actions": [
     {
       "key": "test_weather",
-      "label": { "en": "Test the connection", "fr": "Tester la connexion" },
+      "label": {
+        "en": "Test the connection",
+        "fr": "Tester la connexion"
+      },
       "timeout_seconds": 30,
       "fields": [
         {
           "key": "latitude",
           "type": "number",
-          "label": { "en": "Latitude", "fr": "Latitude" },
+          "label": {
+            "en": "Latitude",
+            "fr": "Latitude"
+          },
           "required": false,
           "default": 48.8566,
           "min": -90,
@@ -105,7 +131,10 @@
         {
           "key": "longitude",
           "type": "number",
-          "label": { "en": "Longitude", "fr": "Longitude" },
+          "label": {
+            "en": "Longitude",
+            "fr": "Longitude"
+          },
           "required": false,
           "default": 2.3522,
           "min": -180,
