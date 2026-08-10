@@ -150,8 +150,9 @@ function formatDays(daily, units) {
  * Format a One Call 3.0 answer into the Gladys pivot weather format.
  * @param {object} response the /data/3.0/onecall payload
  * @param {string} units the unit system requested by Gladys ('metric' | 'us')
+ * @param {number} [now] current time in milliseconds (injectable for the tests)
  */
-export function formatOneCallWeather(response, units) {
+export function formatOneCallWeather(response, units, now = Date.now()) {
   const weather = formatCurrent(response?.current, units);
 
   if (Array.isArray(response?.hourly) && response.hourly.length > 0) {
@@ -160,7 +161,7 @@ export function formatOneCallWeather(response, units) {
   if (Array.isArray(response?.daily) && response.daily.length > 0) {
     weather.days = formatDays(response.daily, units);
   }
-  const alerts = formatAlerts(response?.alerts);
+  const alerts = formatAlerts(response?.alerts, now);
   if (alerts.length > 0) {
     weather.alerts = alerts;
   }

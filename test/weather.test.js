@@ -4,7 +4,7 @@ import { WEATHER_CONDITIONS } from '@gladysassistant/integration-sdk';
 import { normalizeConfig } from '../src/config.js';
 import { clearCache, getWeather, normalizeOptions } from '../src/weather.js';
 import { CURRENT_WEATHER, FORECAST } from './fixtures/free.js';
-import { ONE_CALL } from './fixtures/oneCall.js';
+import { ONE_CALL, ONE_CALL_NOW } from './fixtures/oneCall.js';
 
 const realFetch = globalThis.fetch;
 
@@ -83,7 +83,7 @@ test('getWeather passes the coordinates, the language, the units and the key', a
 test('getWeather calls One Call when the user subscribed to it', async () => {
   stubFetch({ '/data/3.0/onecall': ONE_CALL });
   const config = normalizeConfig({ api_key: 'abc123', api_version: '3.0' });
-  const weather = await getWeather(config, OPTIONS);
+  const weather = await getWeather(config, OPTIONS, ONE_CALL_NOW);
 
   assert.equal(requestedUrls.length, 1);
   assert.match(requestedUrls[0], /\/data\/3\.0\/onecall/);

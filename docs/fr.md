@@ -61,12 +61,13 @@ maison ou votre préférence d'unité dans Gladys, et cette intégration suit.
 
 ## En cas de problème
 
-| Ce que vous voyez                                                            | Ce que ça veut dire                                                                                                               |
-| ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| « OpenWeather rejected the API key (HTTP 401) »                              | La clé est erronée, ou elle n'est pas encore active (attendez jusqu'à quelques heures après sa création).                         |
-| « OpenWeather does not serve /data/3.0/onecall for this account (HTTP 404) » | Vous avez choisi One Call 3.0 sans l'abonnement correspondant. Souscrivez sur le site d'OpenWeather, ou revenez à l'API gratuite. |
-| « OpenWeather quota exceeded (HTTP 429) »                                    | Trop d'appels. Augmentez la durée du cache, ou changez d'offre OpenWeather.                                                       |
-| Le widget affiche la météo mais aucune alerte                                | Les alertes météo n'existent que sur One Call 3.0, et uniquement là où un service météorologique en a émis une.                   |
+| Ce que vous voyez                                                            | Ce que ça veut dire                                                                                                                                                                                                                        |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| « OpenWeather rejected the API key (HTTP 401) »                              | La clé est erronée, ou elle n'est pas encore active (attendez jusqu'à quelques heures après sa création).                                                                                                                                  |
+| « OpenWeather does not serve /data/3.0/onecall for this account (HTTP 404) » | Vous avez choisi One Call 3.0 sans l'abonnement correspondant. Souscrivez sur le site d'OpenWeather, ou revenez à l'API gratuite.                                                                                                          |
+| « OpenWeather quota exceeded (HTTP 429) »                                    | Trop d'appels. Augmentez la durée du cache, ou changez d'offre OpenWeather.                                                                                                                                                                |
+| Le widget affiche la météo mais aucune alerte                                | Les alertes météo n'existent que sur One Call 3.0, et uniquement là où un service météorologique en a émis une.                                                                                                                            |
+| Le texte d'une alerte est en anglais                                         | OpenWeather diffuse les bulletins d'alerte en anglais quelle que soit la langue demandée, c'est une limite de leur API. Le libellé de l'alerte, lui, est traduit par Gladys dès que le phénomène est reconnu (vent, pluie, orage, neige…). |
 
 L'intégration journalise chaque requête qu'elle effectue : consultez les logs de
 l'intégration depuis l'interface de Gladys (ou `docker logs` sur l'hôte).

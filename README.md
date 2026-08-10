@@ -64,9 +64,26 @@ provider never sends a field it does not have.
 - **Alerts.** OpenWeather relays the national meteorological office's wording
   and provides neither a CAP severity nor a phenomenon type. The `type` comes
   from the OpenWeather `tags`, with the `event` wording as a fallback; the
-  `severity` is read from the national level in the wording ("Vigilance
-  orange" → `severe`, "Red warning" → `extreme`, "Advisory" → `minor`) and
-  defaults to `moderate` when the wording does not say.
+  `severity` is read from the vigilance **colour** first ("Vigilance orange" /
+  "Orange Wind warning" → `severe`, "Red warning" → `extreme`, "Yellow …
+  warning" → `minor`), then from the severity words when the office publishes
+  no colour ("Extreme Heat Warning" → `extreme`, "Frost Advisory" → `minor`),
+  and defaults to `moderate` when the wording does not say. The colour is read
+  before anything else because MeteoAlarm names _every_ alert a "warning", and
+  the phenomenon labels are stripped first so that the "Extreme high
+  temperature" phenomenon does not turn a yellow vigilance into an extreme one.
+  Expired bulletins are dropped (OpenWeather keeps serving them past their end
+  date), and a bulletin text already published is not repeated on the next
+  alerts — a national office typically sends the same department bulletin as
+  the description of every phenomenon it covers.
+  **Language:** OpenWeather serves the alert `event` and `description` in
+  English whatever the `lang` parameter says ("National weather alerts are
+  provided in English by default", [One Call 3.0
+  documentation](https://openweathermap.org/api/one-call-3)) — only the weather
+  `description` field is translated, and this integration does not use it. What
+  the widget _can_ translate is the alert label of a **typed** alert, which is
+  why the type detection covers the French and English wordings of every
+  phenomenon of the pivot.
 - **Cache.** A short in-memory cache (10 minutes by default, configurable, 0 to
   disable) sits in front of OpenWeather: the widget and the chat both ask for
   the weather, and re-reading a two-minute-old forecast would burn quota for

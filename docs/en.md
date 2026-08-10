@@ -58,12 +58,13 @@ this integration follows.
 
 ## Troubleshooting
 
-| What you see                                                               | What it means                                                                                                                   |
-| -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| "OpenWeather rejected the API key (HTTP 401)"                              | The key is wrong, or it is not active yet (wait up to a couple of hours after creating it).                                     |
-| "OpenWeather does not serve /data/3.0/onecall for this account (HTTP 404)" | You selected One Call 3.0 without the matching subscription. Subscribe on the OpenWeather site, or switch back to the free API. |
-| "OpenWeather quota exceeded (HTTP 429)"                                    | Too many calls. Raise the cache duration, or upgrade your OpenWeather plan.                                                     |
-| The widget shows the weather but no alerts                                 | Weather alerts only exist on One Call 3.0, and only where a meteorological office has issued one.                               |
+| What you see                                                               | What it means                                                                                                                                                                                                                    |
+| -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| "OpenWeather rejected the API key (HTTP 401)"                              | The key is wrong, or it is not active yet (wait up to a couple of hours after creating it).                                                                                                                                      |
+| "OpenWeather does not serve /data/3.0/onecall for this account (HTTP 404)" | You selected One Call 3.0 without the matching subscription. Subscribe on the OpenWeather site, or switch back to the free API.                                                                                                  |
+| "OpenWeather quota exceeded (HTTP 429)"                                    | Too many calls. Raise the cache duration, or upgrade your OpenWeather plan.                                                                                                                                                      |
+| The widget shows the weather but no alerts                                 | Weather alerts only exist on One Call 3.0, and only where a meteorological office has issued one.                                                                                                                                |
+| The text of an alert is in English                                         | OpenWeather serves the alert bulletins in English whatever the requested language — an API limitation. The alert label itself is translated by Gladys as soon as the phenomenon is recognized (wind, rain, thunderstorm, snow…). |
 
 The integration logs every request it makes: open the integration logs from the
 Gladys UI (or `docker logs` on the host). Set `LOG_LEVEL=debug` for the full
