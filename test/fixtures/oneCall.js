@@ -1,6 +1,10 @@
 // Trimmed-down but faithful sample of a One Call 3.0 answer for Paris,
 // requested with `units=metric`. Current reading at 2026-08-01T10:00:00Z.
 
+// The moment the fixture was read, in milliseconds. The alert formatting drops
+// the bulletins that have expired, so the tests have to be run "at" that date.
+export const ONE_CALL_NOW = Date.parse('2026-08-01T10:00:00.000Z');
+
 export const ONE_CALL = {
   lat: 48.8566,
   lon: 2.3522,

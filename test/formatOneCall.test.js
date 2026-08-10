@@ -6,9 +6,9 @@ import {
   WEATHER_CONDITIONS,
 } from '@gladysassistant/integration-sdk';
 import { formatOneCallWeather } from '../src/openweather/formatOneCall.js';
-import { ONE_CALL } from './fixtures/oneCall.js';
+import { ONE_CALL, ONE_CALL_NOW } from './fixtures/oneCall.js';
 
-const metric = () => formatOneCallWeather(ONE_CALL, 'metric');
+const metric = () => formatOneCallWeather(ONE_CALL, 'metric', ONE_CALL_NOW);
 
 test('the current conditions carry the required pivot fields', () => {
   const weather = metric();

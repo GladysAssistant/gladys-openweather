@@ -104,7 +104,7 @@ export async function getWeather(config, rawOptions, now = Date.now()) {
   const response = await fetchWeather(config, options);
   const weather =
     config.api_version === API_VERSIONS.ONE_CALL
-      ? formatOneCallWeather(response, options.units)
+      ? formatOneCallWeather(response, options.units, now)
       : formatFreeWeather(response, options.units);
 
   assertUsable(weather);
