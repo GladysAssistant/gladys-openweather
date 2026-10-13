@@ -124,8 +124,10 @@ provider never sends a field it does not have.
 - **`@gladysassistant/integration-sdk` ≥ 0.15.0** — the weather API
   (`onWeatherGet`, `WEATHER_CONDITIONS` with the extended conditions,
   `WEATHER_ALERT_SEVERITIES`, `WEATHER_ALERT_TYPES`).
-- A **Gladys** with weather-integration support (spec B.18); the manifest
-  declares the range in `gladys_version`.
+- **Gladys ≥ 5.0.0** (`gladys_version` in the manifest): weather integrations
+  arrived in 4.85.0, but the extended conditions (`freezing-rain`,
+  `sandstorm`, `tornado`…) only in 5.0.0 — an older core turns them into
+  `unknown`.
 
 ## Run it locally
 
