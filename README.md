@@ -51,8 +51,11 @@ provider never sends a field it does not have.
   groups); this port maps the numeric [condition
   code](https://openweathermap.org/weather-conditions), which keeps the
   intensity the group name throws away: `502` → `pouring` rather than `rain`,
-  `801` → `partly-cloudy` rather than `cloud`, `511`/`616` → `sleet`.
-  OpenWeather has no hail code, so `hail` is never emitted.
+  `801` → `partly-cloudy` rather than `cloud`, `616` → `sleet`, and the
+  extended conditions: `511` → `freezing-rain`, `731`/`751`/`761` →
+  `sandstorm`, `781` → `tornado`. OpenWeather has no hail, freezing fog,
+  thundersnow or hurricane code, so `hail`, `freezing-fog`, `snow-thunderstorm`
+  and `hurricane` are never emitted.
 - **Day and night.** The pivot's `weather` keeps the meteorology and the strict
   boolean `is_day` drives the day/night rendering variant (read from the `d`/`n`
   suffix of the OpenWeather icon). A rainy night stays `rain`, never the

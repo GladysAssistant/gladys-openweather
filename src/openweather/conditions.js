@@ -2,11 +2,12 @@
 // OpenWeather condition codes -> the Gladys pivot condition enum.
 //
 // The internal Gladys OpenWeather service mapped `weather[0].main` (8 coarse
-// groups). The pivot enum has since gained `partly-cloudy`, `pouring`, `sleet`
-// and `hail`, so this port maps the NUMERIC CODE instead
+// groups). The pivot enum has since gained `partly-cloudy`, `pouring`, `sleet`,
+// `hail`, and then the extensions `freezing-rain`, `sandstorm`, `tornado`...,
+// so this port maps the NUMERIC CODE instead
 // (https://openweathermap.org/weather-conditions): the same 8 groups, but with
 // the intensity that `main` throws away — few clouds vs overcast, moderate rain
-// vs extreme rain, snow vs sleet.
+// vs extreme rain, snow vs sleet, a squall vs a tornado.
 //
 // Anything the core does not know is coerced to 'unknown' on its side, so the
 // rule here is simple: only ever emit a value of WEATHER_CONDITIONS.
@@ -17,11 +18,12 @@ import { WEATHER_CONDITIONS } from '@gladysassistant/integration-sdk';
 // Codes whose group default is not precise enough. Everything not listed here
 // falls back to its group (2xx, 3xx, 5xx...) below.
 const CONDITION_BY_CODE = {
-  // 5xx Rain: the heavy variants deserve `pouring`, freezing rain is sleet.
+  // 5xx Rain: the heavy variants deserve `pouring`, freezing rain its own
+  // condition (black ice: plain `rain` would carry no warning).
   502: WEATHER_CONDITIONS.POURING, // heavy intensity rain
   503: WEATHER_CONDITIONS.POURING, // very heavy rain
   504: WEATHER_CONDITIONS.POURING, // extreme rain
-  511: WEATHER_CONDITIONS.SLEET, // freezing rain
+  511: WEATHER_CONDITIONS.FREEZING_RAIN, // freezing rain
   522: WEATHER_CONDITIONS.POURING, // heavy intensity shower rain
   // 6xx Snow: OpenWeather's own sleet codes, and the rain-and-snow mixes.
   611: WEATHER_CONDITIONS.SLEET, // sleet
@@ -29,10 +31,13 @@ const CONDITION_BY_CODE = {
   613: WEATHER_CONDITIONS.SLEET, // shower sleet
   615: WEATHER_CONDITIONS.SLEET, // light rain and snow
   616: WEATHER_CONDITIONS.SLEET, // rain and snow
-  // 7xx Atmosphere: mostly visibility (-> fog), except what is really wind.
-  731: WEATHER_CONDITIONS.WIND, // sand/dust whirls
+  // 7xx Atmosphere: mostly visibility (-> fog), except sand and dust, and
+  // what is really wind.
+  731: WEATHER_CONDITIONS.SANDSTORM, // sand/dust whirls
+  751: WEATHER_CONDITIONS.SANDSTORM, // sand
+  761: WEATHER_CONDITIONS.SANDSTORM, // dust
   771: WEATHER_CONDITIONS.WIND, // squalls
-  781: WEATHER_CONDITIONS.WIND, // tornado
+  781: WEATHER_CONDITIONS.TORNADO, // tornado
   // 80x Clouds: the pivot separates a few clouds from an overcast sky.
   800: WEATHER_CONDITIONS.CLEAR, // clear sky
   801: WEATHER_CONDITIONS.PARTLY_CLOUDY, // few clouds, 11-25%
@@ -48,16 +53,17 @@ const CONDITION_BY_GROUP = {
   3: WEATHER_CONDITIONS.DRIZZLE,
   5: WEATHER_CONDITIONS.RAIN,
   6: WEATHER_CONDITIONS.SNOW,
-  7: WEATHER_CONDITIONS.FOG, // mist, haze, smoke, sand, dust, ash, fog
+  7: WEATHER_CONDITIONS.FOG, // mist, haze, smoke, ash, fog
   8: WEATHER_CONDITIONS.CLOUD,
 };
 
 /**
  * Map an OpenWeather condition code to a pivot condition.
  *
- * Note: OpenWeather has no hail code, so `hail` is never emitted by this
- * provider — a hailstorm is reported as a thunderstorm (2xx), like OpenWeather
- * itself does.
+ * Note: OpenWeather has no hail, freezing fog, thundersnow or hurricane code,
+ * so `hail`, `freezing-fog`, `snow-thunderstorm` and `hurricane` are never
+ * emitted by this provider — a hailstorm is reported as a thunderstorm (2xx),
+ * like OpenWeather itself does.
  * @param {unknown} code the `weather[0].id` of an OpenWeather response
  */
 export function toCondition(code) {
