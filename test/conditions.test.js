@@ -18,7 +18,6 @@ test('toCondition keeps the intensity that weather[0].main throws away', () => {
   // to 'cloud': these are the values the finer pivot enum unlocked.
   assert.equal(toCondition(503), WEATHER_CONDITIONS.POURING);
   assert.equal(toCondition(522), WEATHER_CONDITIONS.POURING);
-  assert.equal(toCondition(511), WEATHER_CONDITIONS.SLEET);
   assert.equal(toCondition(616), WEATHER_CONDITIONS.SLEET);
   assert.equal(toCondition(801), WEATHER_CONDITIONS.PARTLY_CLOUDY);
   assert.equal(toCondition(802), WEATHER_CONDITIONS.PARTLY_CLOUDY);
@@ -28,7 +27,16 @@ test('toCondition keeps the intensity that weather[0].main throws away', () => {
 
 test('toCondition maps the atmospheric codes that are really wind', () => {
   assert.equal(toCondition(771), WEATHER_CONDITIONS.WIND);
-  assert.equal(toCondition(781), WEATHER_CONDITIONS.WIND);
+});
+
+test('toCondition uses the extended conditions OpenWeather encodes', () => {
+  assert.equal(toCondition(511), WEATHER_CONDITIONS.FREEZING_RAIN);
+  assert.equal(toCondition(731), WEATHER_CONDITIONS.SANDSTORM);
+  assert.equal(toCondition(751), WEATHER_CONDITIONS.SANDSTORM);
+  assert.equal(toCondition(761), WEATHER_CONDITIONS.SANDSTORM);
+  assert.equal(toCondition(781), WEATHER_CONDITIONS.TORNADO);
+  // Volcanic ash is a visibility issue, not a sand or dust storm.
+  assert.equal(toCondition(762), WEATHER_CONDITIONS.FOG);
 });
 
 test('toCondition falls back to the group of an unknown code', () => {

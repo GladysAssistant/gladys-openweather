@@ -51,8 +51,11 @@ provider never sends a field it does not have.
   groups); this port maps the numeric [condition
   code](https://openweathermap.org/weather-conditions), which keeps the
   intensity the group name throws away: `502` → `pouring` rather than `rain`,
-  `801` → `partly-cloudy` rather than `cloud`, `511`/`616` → `sleet`.
-  OpenWeather has no hail code, so `hail` is never emitted.
+  `801` → `partly-cloudy` rather than `cloud`, `616` → `sleet`, and the
+  extended conditions: `511` → `freezing-rain`, `731`/`751`/`761` →
+  `sandstorm`, `781` → `tornado`. OpenWeather has no hail, freezing fog,
+  thundersnow or hurricane code, so `hail`, `freezing-fog`, `snow-thunderstorm`
+  and `hurricane` are never emitted.
 - **Day and night.** The pivot's `weather` keeps the meteorology and the strict
   boolean `is_day` drives the day/night rendering variant (read from the `d`/`n`
   suffix of the OpenWeather icon). A rainy night stays `rain`, never the
@@ -118,37 +121,13 @@ provider never sends a field it does not have.
 ## Requirements
 
 - **Node.js ≥ 20** (uses the built-in global `fetch`; no HTTP dependency).
-- **`@gladysassistant/integration-sdk` with the weather API** — `onWeatherGet`,
-  `WEATHER_CONDITIONS`, `WEATHER_ALERT_SEVERITIES`, `WEATHER_ALERT_TYPES`.
-- A **Gladys** with weather-integration support (spec B.18); the manifest
-  declares the range in `gladys_version`.
-
-> **⚠️ Temporary: the SDK is pinned to an unreleased commit.**
-> The SDK weather API ([integration-sdk-js#19](https://github.com/GladysAssistant/integration-sdk-js/pull/19))
-> and the Gladys core support ([Gladys#2738](https://github.com/GladysAssistant/Gladys/pull/2738))
-> are both still open pull requests, so no published npm version carries
-> `onWeatherGet` yet. To keep this repository installable and its CI green,
-> `package.json` points at the source archive of the **exact commit** of the SDK
-> pull request:
->
-> ```
-> https://github.com/GladysAssistant/integration-sdk-js/archive/af9d20b0e92415c242265c5ee0647f5c618332ec.tar.gz
-> ```
->
-> An https tarball rather than a `git+…` dependency on purpose: npm rewrites
-> GitHub git dependencies to `git+ssh://` in the lockfile, which then fails on
-> any CI runner without an SSH key. The tarball resolves over plain https, is
-> pinned to an immutable commit, carries an integrity hash and needs no `git`
-> in the Docker image.
->
-> **When the SDK ships the weather API, do these three things:**
->
-> 1. set the dependency back to a plain version (`"^0.10.0"`) and run
->    `npm install` to refresh `package-lock.json`;
-> 2. set `gladys_version` in the manifest to the Gladys release that carries
->    B.18 (it currently guesses `>=4.85.0`);
-> 3. re-run `npx github:GladysAssistant/integration-store .` — the store schema
->    only accepts `type: "weather"` once Gladys#2738 has landed.
+- **`@gladysassistant/integration-sdk` ≥ 0.15.0** — the weather API
+  (`onWeatherGet`, `WEATHER_CONDITIONS` with the extended conditions,
+  `WEATHER_ALERT_SEVERITIES`, `WEATHER_ALERT_TYPES`).
+- **Gladys ≥ 5.0.0** (`gladys_version` in the manifest): weather integrations
+  arrived in 4.85.0, but the extended conditions (`freezing-rain`,
+  `sandstorm`, `tornado`…) only in 5.0.0 — an older core turns them into
+  `unknown`.
 
 ## Run it locally
 
