@@ -1,5 +1,7 @@
 # OpenWeather
 
+## Overview
+
 This integration provides the weather displayed in Gladys: the dashboard
 weather widget, and the answers of the chat assistant when you ask "what is the
 weather like?".
@@ -8,7 +10,16 @@ Once installed and configured, it takes over from the OpenWeather service built
 into Gladys, with nothing else to do. If you stop or uninstall it, Gladys falls
 back to the built-in service automatically.
 
-## 1. Get an OpenWeather API key
+## Prerequisites
+
+- **Gladys 5.0 or later.**
+- An **OpenWeather account** and its **API key**: the free account is enough
+  (see below).
+- **Internet access** from the Gladys server, to reach the OpenWeather API.
+- A **location for your house** in Gladys: it is the place the weather is
+  given for (see _Where the location comes from_ below).
+
+### Get an OpenWeather API key
 
 1. Create a free account on
    [openweathermap.org](https://home.openweathermap.org/users/sign_up).
@@ -17,7 +28,7 @@ back to the built-in service automatically.
 3. **Be patient**: a brand-new key takes up to a couple of hours before
    OpenWeather activates it. Until then, every request answers `401`.
 
-## 2. Configure the integration
+## Configuration
 
 Open the **Configuration** tab of the integration and fill in:
 
@@ -38,7 +49,7 @@ Open the **Configuration** tab of the integration and fill in:
 Save. The status at the top of the page turns green as soon as the integration
 can serve the weather.
 
-## 3. Check it works
+### Check it works
 
 The **Test the connection** button runs a real request to OpenWeather (Paris by
 default, change the coordinates to your own if you like) and shows the
@@ -63,6 +74,7 @@ this integration follows.
 | "OpenWeather rejected the API key (HTTP 401)"                              | The key is wrong, or it is not active yet (wait up to a couple of hours after creating it).                                                                                                                                      |
 | "OpenWeather does not serve /data/3.0/onecall for this account (HTTP 404)" | You selected One Call 3.0 without the matching subscription. Subscribe on the OpenWeather site, or switch back to the free API.                                                                                                  |
 | "OpenWeather quota exceeded (HTTP 429)"                                    | Too many calls. Raise the cache duration, or upgrade your OpenWeather plan.                                                                                                                                                      |
+| "Gladys asked for the weather without usable coordinates."                 | The house has no location in Gladys. Set its address in the house settings of Gladys.                                                                                                                                            |
 | The widget shows the weather but no alerts                                 | Weather alerts only exist on One Call 3.0, and only where a meteorological office has issued one.                                                                                                                                |
 | The text of an alert is in English                                         | OpenWeather serves the alert bulletins in English whatever the requested language — an API limitation. The alert label itself is translated by Gladys as soon as the phenomenon is recognized (wind, rain, thunderstorm, snow…). |
 

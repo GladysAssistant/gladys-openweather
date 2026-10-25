@@ -1,5 +1,7 @@
 # OpenWeather
 
+## Présentation
+
 Cette intégration fournit la météo affichée dans Gladys : le widget météo du
 tableau de bord, et les réponses de l'assistant quand vous lui demandez « quel
 temps fait-il ? ».
@@ -8,7 +10,17 @@ Une fois installée et configurée, elle prend le relais du service OpenWeather
 intégré à Gladys, sans rien d'autre à faire. Si vous l'arrêtez ou la
 désinstallez, Gladys revient automatiquement au service intégré.
 
-## 1. Obtenir une clé d'API OpenWeather
+## Prérequis
+
+- **Gladys 5.0 ou supérieur.**
+- Un **compte OpenWeather** et sa **clé d'API** : le compte gratuit suffit
+  (voir ci-dessous).
+- Un **accès à internet** depuis le serveur Gladys, pour joindre l'API
+  OpenWeather.
+- Une **position pour votre maison** dans Gladys : c'est l'endroit pour lequel
+  la météo est donnée (voir _D'où vient la position_ plus bas).
+
+### Obtenir une clé d'API OpenWeather
 
 1. Créez un compte gratuit sur
    [openweathermap.org](https://home.openweathermap.org/users/sign_up).
@@ -17,7 +29,7 @@ désinstallez, Gladys revient automatiquement au service intégré.
 3. **Patientez** : une clé toute neuve met jusqu'à quelques heures avant d'être
    activée par OpenWeather. D'ici là, chaque requête répond `401`.
 
-## 2. Configurer l'intégration
+## Configuration
 
 Ouvrez l'onglet **Configuration** de l'intégration et renseignez :
 
@@ -41,7 +53,7 @@ Ouvrez l'onglet **Configuration** de l'intégration et renseignez :
 Enregistrez. Le statut en haut de la page passe au vert dès que l'intégration
 peut fournir la météo.
 
-## 3. Vérifier que ça marche
+### Vérifier que ça marche
 
 Le bouton **Tester la connexion** effectue une vraie requête vers OpenWeather
 (Paris par défaut, changez les coordonnées pour les vôtres si vous le
@@ -59,13 +71,14 @@ coordonnées de la maison qui demande, ainsi que la langue et le système
 d'unités (°C ou °F) de l'utilisateur qui demande. Changez l'adresse de votre
 maison ou votre préférence d'unité dans Gladys, et cette intégration suit.
 
-## En cas de problème
+## Dépannage
 
 | Ce que vous voyez                                                            | Ce que ça veut dire                                                                                                                                                                                                                        |
 | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | « OpenWeather rejected the API key (HTTP 401) »                              | La clé est erronée, ou elle n'est pas encore active (attendez jusqu'à quelques heures après sa création).                                                                                                                                  |
 | « OpenWeather does not serve /data/3.0/onecall for this account (HTTP 404) » | Vous avez choisi One Call 3.0 sans l'abonnement correspondant. Souscrivez sur le site d'OpenWeather, ou revenez à l'API gratuite.                                                                                                          |
 | « OpenWeather quota exceeded (HTTP 429) »                                    | Trop d'appels. Augmentez la durée du cache, ou changez d'offre OpenWeather.                                                                                                                                                                |
+| « Gladys asked for the weather without usable coordinates. »                 | La maison n'a pas de position dans Gladys. Renseignez son adresse dans les paramètres de la maison de Gladys.                                                                                                                              |
 | Le widget affiche la météo mais aucune alerte                                | Les alertes météo n'existent que sur One Call 3.0, et uniquement là où un service météorologique en a émis une.                                                                                                                            |
 | Le texte d'une alerte est en anglais                                         | OpenWeather diffuse les bulletins d'alerte en anglais quelle que soit la langue demandée, c'est une limite de leur API. Le libellé de l'alerte, lui, est traduit par Gladys dès que le phénomène est reconnu (vent, pluie, orage, neige…). |
 
