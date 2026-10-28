@@ -29,13 +29,29 @@ const COORDINATE_PRECISION = 4;
 const cache = new Map();
 
 /**
+ * Read a coordinate from a weather request. `Number()` alone would turn null,
+ * an empty string or a boolean into 0 and fetch the weather of 0,0: anything
+ * that is not a number or a numeric string is NaN, so the request is refused.
+ * @param {unknown} value the raw latitude or longitude
+ */
+function toCoordinate(value) {
+  if (typeof value === 'number') {
+    return value;
+  }
+  if (typeof value === 'string' && value.trim().length > 0) {
+    return Number(value);
+  }
+  return NaN;
+}
+
+/**
  * Normalize the options of a Gladys weather request.
  * @param {Record<string, unknown>} options the raw request from the core
  */
 export function normalizeOptions(options = {}) {
   return {
-    latitude: Number(options.latitude),
-    longitude: Number(options.longitude),
+    latitude: toCoordinate(options.latitude),
+    longitude: toCoordinate(options.longitude),
     language:
       typeof options.language === 'string' && options.language.length > 0 ? options.language : 'en',
     units: options.units === UNIT_SYSTEMS.US ? UNIT_SYSTEMS.US : UNIT_SYSTEMS.METRIC,

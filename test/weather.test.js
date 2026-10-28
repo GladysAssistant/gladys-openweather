@@ -135,6 +135,24 @@ test('getWeather fails when Gladys asks without usable coordinates', async () =>
   await assert.rejects(() => getWeather(config, { latitude: 'nope' }), /coordinates/);
 });
 
+test('getWeather refuses missing coordinates instead of reading the weather at 0,0', async () => {
+  stubFetch(FREE_RESPONSES);
+  const config = normalizeConfig({ api_key: 'abc123' });
+  for (const missing of [null, undefined, '', '  ', false]) {
+    await assert.rejects(
+      () => getWeather(config, { latitude: missing, longitude: missing }),
+      /coordinates/,
+    );
+  }
+  assert.equal(requestedUrls.length, 0);
+});
+
+test('normalizeOptions accepts numeric strings and a real 0 coordinate', () => {
+  const options = normalizeOptions({ latitude: '48.8566', longitude: 0 });
+  assert.equal(options.latitude, 48.8566);
+  assert.equal(options.longitude, 0);
+});
+
 test('a rejected API key surfaces as an explicit error', async () => {
   globalThis.fetch = async () => ({ ok: false, status: 401 });
   const config = normalizeConfig({ api_key: 'wrong' });
